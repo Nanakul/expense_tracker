@@ -135,4 +135,5 @@ dmypy.json
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
-MyExpenses.sqlite
+Expenses.db
+.DS_Store
