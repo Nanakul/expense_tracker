@@ -41,12 +41,16 @@ def display_all_expenses():
 
 
 def display_expense_to_current():
-    connect.execute('SELECT strftime("%m/%d/%Y", datetime("now"))')
-    cursor.execute('SELECT * FROM Expenses WHERE Expenses MATCH ""')
+    cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
+    cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%m/%d/%Y", "now")')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    connect.commit()
 
 
 new_expense()
-display_all_expenses()
+# display_all_expenses()
 display_expense_to_current()
 
 
