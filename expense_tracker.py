@@ -8,14 +8,14 @@ import sys
 
 
 # Connect the database
-# connect = db.connect('MyExpenses.sqlite')
-# cursor = connect.cursor()
-# cursor.execute("""CREATE TABLE Expenses (
+connect = db.connect('Expenses.db')
+cursor = connect.cursor()
+# cursor.execute("""CREATE TABLE Expenses4 (
 #                 item VARCHAR,
 #                 date VARCHAR,
 #                 price VARCHAR
 #                 )""")
-# connect.commit()
+connect.commit()
 
 
 # 1.) Display Date and Time
@@ -28,52 +28,53 @@ import sys
 def new_expense():
     item = input('What did you purchase? ')
     date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
-    item_price = float(input('How much did this cost? '))
+    item_price = input('How much did this cost? ')
 
-    # connect.execute('INSERT INTO Expenses VALUES (:item, :date, :price)',
-    #                 (str({item}), str({date_purchased}), str({item_price})))
-    # connect.commit()
-    # print(cursor.fetchall())
-    # connect.commit()
-    # connect.close()
+    connect.execute('INSERT INTO Expenses VALUES (?, ?, ?)',
+                    (str(item), str(date_purchased), str(item_price)))
+    connect.commit()
+    cursor.execute('SELECT * FROM Expenses WHERE item=:item', {'item': item})
+    print(cursor.fetchall())
+    connect.commit()
+    connect.close()
 
 
 new_expense()
 
 
-# class MyWindow(QMainWindow):
-#     def __init__(self):
-#         super(MyWindow, self).__init__()
-#         self.label = QtWidgets.QLabel(self)
-#         self.weekly_expense_button = QtWidgets.QPushButton(self)
-#         self.setGeometry(300, 300, 300, 300)
-#         self.setWindowTitle('Expense Tracker')
-#         self.initialize_ui()
-#
-#     def initialize_ui(self):
-#         self.label.setText('Not clicked.')
-#         self.label.move(50, 50)
-#
-#         self.weekly_expense_button.setText('Weekly Expenses')
-#         self.weekly_expense_button.setGeometry(0, 0, 130, 50)
-#         self.weekly_expense_button.clicked.connect(self.weekly_expense_button_click)
-#
-#     def weekly_expense_button_click(self):
-#         self.label.setText('You have clicked the button!')
-#         self.update()
-#
-#     def update(self):
-#         self.label.adjustSize()
+class MyWindow(QMainWindow):
+    def __init__(self):
+        super(MyWindow, self).__init__()
+        self.label = QtWidgets.QLabel(self)
+        self.weekly_expense_button = QtWidgets.QPushButton(self)
+        self.setGeometry(300, 300, 300, 300)
+        self.setWindowTitle('Expense Tracker')
+        self.initialize_ui()
+
+    def initialize_ui(self):
+        self.label.setText('Not clicked.')
+        self.label.move(50, 50)
+
+        self.weekly_expense_button.setText('Weekly Expenses')
+        self.weekly_expense_button.setGeometry(0, 0, 130, 50)
+        self.weekly_expense_button.clicked.connect(self.weekly_expense_button_click)
+
+    def weekly_expense_button_click(self):
+        self.label.setText('You have clicked the button!')
+        self.update()
+
+    def update(self):
+        self.label.adjustSize()
 
 
-# def window():
-#     app = QApplication(sys.argv)
-#     win = MyWindow()
-#     win.show()
-#     sys.exit(app.exec_())
+def window():
+    app = QApplication(sys.argv)
+    win = MyWindow()
+    win.show()
+    sys.exit(app.exec_())
 
 
-# window()
+window()
 
 if __name__ == '__main__':
     pass

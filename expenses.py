@@ -16,7 +16,7 @@ def welcome():
     print('DATE: ' + date_now)
     print('TIME: ' + time_now)
     print('++++++++++++++++++++++++++++++')
-    choose_option = 
+    choose_option = input('What would you like to do? ')
 
 
 if __name__ == '__main__':
