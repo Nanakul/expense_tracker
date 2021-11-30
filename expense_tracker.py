@@ -8,7 +8,7 @@ import sys
 
 # 1 -- Entering expenses == DONE
 # 2 -- Return all expenses == DONE
-# 3 -- Return all expenses from current date to specified date == WORKING
+# 3 -- Return all expenses from current date to specified date == DONE
 # 4 -- Return all expenses between two specified dates
 
 # Connect the database
@@ -49,10 +49,21 @@ def display_expense_to_current():
     connect.commit()
 
 
+def expense_between_range():
+    date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
+    date2 = input('Enter the end date. Format: MM/DD/YYYY ')
+    cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
+    cursor.execute('SELECT * FROM Expenses BETWEEN (?, ?)', (str(date1), str(date2)))
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    connect.commit()
+
+
 new_expense()
 # display_all_expenses()
-display_expense_to_current()
-
+# display_expense_to_current()
+expense_between_range()
 
 # class MyWindow(QMainWindow):
 #     def __init__(self):
