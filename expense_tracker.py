@@ -53,14 +53,14 @@ def expense_between_range():
     date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
     date2 = input('Enter the end date. Format: MM/DD/YYYY ')
     cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
-    cursor.execute('SELECT * FROM Expenses BETWEEN (?, ?)', (str(date1), str(date2)))
+    cursor.execute('SELECT * FROM Expenses WHERE date BETWEEN (?) and (?)', (str(date1), str(date2)))
     rows = cursor.fetchall()
     for row in rows:
         print(row)
     connect.commit()
 
 
-new_expense()
+# new_expense()
 # display_all_expenses()
 # display_expense_to_current()
 expense_between_range()
