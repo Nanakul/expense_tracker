@@ -1,10 +1,6 @@
-import sqlite3
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from datetime import datetime
 import sqlite3 as db
-import pandas as pd
-import sys
 import re
 
 # 1 -- Entering expenses == DONE
@@ -78,40 +74,6 @@ def expense_between_range():
 # display_all_expenses()
 # display_expense_to_current()
 expense_between_range()
-
-# class MyWindow(QMainWindow):
-#     def __init__(self):
-#         super(MyWindow, self).__init__()
-#         self.label = QtWidgets.QLabel(self)
-#         self.weekly_expense_button = QtWidgets.QPushButton(self)
-#         self.setGeometry(300, 300, 300, 300)
-#         self.setWindowTitle('Expense Tracker')
-#         self.initialize_ui()
-#
-#     def initialize_ui(self):
-#         self.label.setText('Not clicked.')
-#         self.label.move(50, 50)
-#
-#         self.weekly_expense_button.setText('Weekly Expenses')
-#         self.weekly_expense_button.setGeometry(0, 0, 130, 50)
-#         self.weekly_expense_button.clicked.connect(self.weekly_expense_button_click)
-#
-#     def weekly_expense_button_click(self):
-#         self.label.setText('You have clicked the button!')
-#         self.update()
-#
-#     def update(self):
-#         self.label.adjustSize()
-#
-#
-# def window():
-#     app = QApplication(sys.argv)
-#     win = MyWindow()
-#     win.show()
-#     sys.exit(app.exec_())
-
-
-# window()
 
 if __name__ == '__main__':
     pass
