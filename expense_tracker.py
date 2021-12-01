@@ -9,22 +9,29 @@ import re
 # Connect the database
 connection = db.connect('Expenses.db')
 cursor = connection.cursor()
-# cursor.execute("""CREATE TABLE Expenses4 (
-#                 item VARCHAR,
-#                 date VARCHAR,
-#                 price VARCHAR
-#                 )""")
+cursor.execute("""CREATE TABLE if NOT EXISTS Expenses (
+                item VARCHAR, 
+                date VARCHAR, 
+                price VARCHAR
+                )""")
 connection.commit()
 
 
 def new_expense():
     """This function will allow a user to input a new expense."""
-    item = input('What did you purchase? ')
-    date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
-    item_price = input('How much did this cost? ')
+    while True:
+        item = input('What did you purchase? ')
+        date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
+        item_price = input('How much did this cost? ')
+        d1_format = re.search(r'\d{2}/\d{2}/\d{4}', date_purchased)
+
+        if d1_format is None:
+            print('Please re-enter using the instructed format.')
+        else:
+            break
 
     connection.execute('INSERT INTO Expenses VALUES (?, ?, ?)',
-                    (str(item), str(date_purchased), str(item_price)))
+                       (str(item), str(date_purchased), str(item_price)))
     connection.commit()
 
 
@@ -37,7 +44,6 @@ def display_all_expenses():
     connection.commit()
 
     return rows
-
 
 
 def display_expense_to_current():
