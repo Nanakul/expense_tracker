@@ -5,11 +5,12 @@ from datetime import datetime
 import sqlite3 as db
 import pandas as pd
 import sys
+import re
 
 # 1 -- Entering expenses == DONE
 # 2 -- Return all expenses == DONE
 # 3 -- Return all expenses from current date to specified date == DONE
-# 4 -- Return all expenses between two specified dates
+# 4 -- Return all expenses between two specified dates == DONE
 
 # Connect the database
 connect = db.connect('Expenses.db')
@@ -50,8 +51,19 @@ def display_expense_to_current():
 
 
 def expense_between_range():
-    date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
-    date2 = input('Enter the end date. Format: MM/DD/YYYY ')
+    # Correct Format Variable
+    correct_format = False
+    while not correct_format:
+        date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
+        date2 = input('Enter the end date. Format: MM/DD/YYYY ')
+        d1_format = re.search(r'\d{2}/\d{2}/\d{4}', date1)
+        d2_format = re.search(r'\d{2}/\d{2}/\d{4}', date2)
+        if date1 == d1_format.group() and date2 == d2_format.group():
+            correct_format = True
+        else:
+            print('Please re-enter using the instructed format.')
+            print(date1)
+
     cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
     cursor.execute('SELECT * FROM Expenses WHERE date BETWEEN (?) and (?)', (str(date1), str(date2)))
     rows = cursor.fetchall()
