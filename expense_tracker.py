@@ -1,5 +1,3 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
 import sqlite3 as db
 import re
 
@@ -70,10 +68,8 @@ def expense_between_range():
     connection.commit()
 
 
-# new_expense()
-# display_all_expenses()
-# display_expense_to_current()
-expense_between_range()
-
 if __name__ == '__main__':
-    pass
+    # new_expense()
+    # display_all_expenses()
+    # display_expense_to_current()
+    expense_between_range()
