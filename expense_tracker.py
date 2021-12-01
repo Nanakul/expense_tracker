@@ -13,14 +13,14 @@ import re
 # 4 -- Return all expenses between two specified dates == DONE
 
 # Connect the database
-connect = db.connect('Expenses.db')
-cursor = connect.cursor()
+connection = db.connect('Expenses.db')
+cursor = connection.cursor()
 # cursor.execute("""CREATE TABLE Expenses4 (
 #                 item VARCHAR,
 #                 date VARCHAR,
 #                 price VARCHAR
 #                 )""")
-connect.commit()
+connection.commit()
 
 
 def new_expense():
@@ -29,9 +29,9 @@ def new_expense():
     date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
     item_price = input('How much did this cost? ')
 
-    connect.execute('INSERT INTO Expenses VALUES (?, ?, ?)',
+    connection.execute('INSERT INTO Expenses VALUES (?, ?, ?)',
                     (str(item), str(date_purchased), str(item_price)))
-    connect.commit()
+    connection.commit()
 
 
 def display_all_expenses():
@@ -40,7 +40,7 @@ def display_all_expenses():
     rows = cursor.fetchall()
     for row in rows:
         print(row)
-    connect.commit()
+    connection.commit()
 
 
 def display_expense_to_current():
@@ -50,7 +50,7 @@ def display_expense_to_current():
     rows = cursor.fetchall()
     for row in rows:
         print(row)
-    connect.commit()
+    connection.commit()
 
 
 def expense_between_range():
@@ -71,7 +71,7 @@ def expense_between_range():
     rows = cursor.fetchall()
     for row in rows:
         print(row)
-    connect.commit()
+    connection.commit()
 
 
 # new_expense()
