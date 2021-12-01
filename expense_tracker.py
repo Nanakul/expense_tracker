@@ -36,6 +36,9 @@ def display_all_expenses():
         print(row)
     connection.commit()
 
+    return rows
+
+
 
 def display_expense_to_current():
     """This function will display all expenses up until the current date (day on which function was run)."""
