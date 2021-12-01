@@ -21,9 +21,9 @@ def new_expense():
     """This function will allow a user to input a new expense."""
     while True:
         item = input('What did you purchase? ')
-        date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
+        date_purchased = input('What day did you make the purchase? Format: YYYY/MM/DD ')
         item_price = input('How much did this cost? ')
-        d1_format = re.search(r'\d{2}/\d{2}/\d{4}', date_purchased)
+        d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date_purchased)
 
         if d1_format is None:
             print('Please re-enter using the instructed format.')
@@ -37,7 +37,7 @@ def new_expense():
 
 def display_all_expenses():
     """This function will display all expenses."""
-    cursor.execute('SELECT * FROM Expenses')
+    cursor.execute('SELECT * FROM Expenses ORDER BY date')
     rows = cursor.fetchall()
     for row in rows:
         print(row)
@@ -48,8 +48,8 @@ def display_all_expenses():
 
 def display_expense_to_current():
     """This function will display all expenses up until the current date (day on which function was run)."""
-    cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
-    cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%m/%d/%Y", "now")'
+    cursor.execute('SELECT strftime("%Y/%m/%d", "now")')
+    cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%Y/%m/%d", "now")'
                    'ORDER BY date')
     rows = cursor.fetchall()
     for row in rows:
@@ -63,16 +63,16 @@ def expense_between_range():
     """This function will allow a user to specify a range of dates to gather expense information."""
     # Correct Format Variable
     while True:
-        date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
-        date2 = input('Enter the end date. Format: MM/DD/YYYY ')
-        d1_format = re.search(r'\d{2}/\d{2}/\d{4}', date1)
-        d2_format = re.search(r'\d{2}/\d{2}/\d{4}', date2)
+        date1 = input('Enter a date to get expense range from. Format: YYYY/MM/DD ')
+        date2 = input('Enter the end date. Format: YYYY/MM/DD ')
+        d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date1)
+        d2_format = re.search(r'\d{4}/\d{2}/\d{2}', date2)
         if d1_format is None or d2_format is None:
             print('Please re-enter using the instructed format.')
         else:
             break
 
-    cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
+    cursor.execute('SELECT strftime("%Y/%m/%d", "now")')
     cursor.execute('SELECT * FROM Expenses WHERE date BETWEEN (?) and (?)', (str(date1), str(date2)))
     rows = cursor.fetchall()
     for row in rows:
@@ -81,7 +81,7 @@ def expense_between_range():
 
 
 if __name__ == '__main__':
-    # new_expense()
+    new_expense()
     # display_all_expenses()
-    display_expense_to_current()
+    # display_expense_to_current()
     # expense_between_range()
