@@ -24,6 +24,7 @@ connect.commit()
 
 
 def new_expense():
+    """This function will allow a user to input a new expense."""
     item = input('What did you purchase? ')
     date_purchased = input('What day did you make the purchase? Format: MM/DD/YYYY ')
     item_price = input('How much did this cost? ')
@@ -34,6 +35,7 @@ def new_expense():
 
 
 def display_all_expenses():
+    """This function will display all expenses."""
     cursor.execute('SELECT * FROM Expenses')
     rows = cursor.fetchall()
     for row in rows:
@@ -42,6 +44,7 @@ def display_all_expenses():
 
 
 def display_expense_to_current():
+    """This function will display all expenses up until the current date (day on which function was run)."""
     cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
     cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%m/%d/%Y", "now")')
     rows = cursor.fetchall()
@@ -51,6 +54,7 @@ def display_expense_to_current():
 
 
 def expense_between_range():
+    """This function will allow a user to specify a range of dates to gather expense information."""
     # Correct Format Variable
     while True:
         date1 = input('Enter a date to get expense range from. Format: MM/DD/YYYY ')
