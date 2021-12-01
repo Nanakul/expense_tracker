@@ -55,6 +55,8 @@ def display_expense_to_current():
         print(row)
     connection.commit()
 
+    return rows
+
 
 def expense_between_range():
     """This function will allow a user to specify a range of dates to gather expense information."""
