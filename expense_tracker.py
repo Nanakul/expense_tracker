@@ -11,7 +11,7 @@ connection = db.connect('Expenses.db')
 cursor = connection.cursor()
 cursor.execute("""CREATE TABLE if NOT EXISTS Expenses (
                 item VARCHAR, 
-                date VARCHAR, 
+                date datetime, 
                 price VARCHAR
                 )""")
 connection.commit()
@@ -49,7 +49,8 @@ def display_all_expenses():
 def display_expense_to_current():
     """This function will display all expenses up until the current date (day on which function was run)."""
     cursor.execute('SELECT strftime("%m/%d/%Y", "now")')
-    cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%m/%d/%Y", "now")')
+    cursor.execute('SELECT * FROM Expenses WHERE date < strftime("%m/%d/%Y", "now")'
+                   'ORDER BY date')
     rows = cursor.fetchall()
     for row in rows:
         print(row)
@@ -82,5 +83,5 @@ def expense_between_range():
 if __name__ == '__main__':
     # new_expense()
     # display_all_expenses()
-    # display_expense_to_current()
-    expense_between_range()
+    display_expense_to_current()
+    # expense_between_range()
