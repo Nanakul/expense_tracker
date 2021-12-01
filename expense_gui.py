@@ -1,37 +1,32 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGridLayout, QWidget
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtCore import QSize
 from expense_tracker import *
 import sys
 
 
-class MyWindow(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
-        super(MyWindow, self).__init__()
-        self.label = QtWidgets.QLabel(self)
-        self.weekly_expense_button = QtWidgets.QPushButton(self)
-        self.setGeometry(300, 300, 300, 300)
+        QMainWindow.__init__(self)
+        self.setGeometry(450, 300, 500, 300)
         self.setWindowTitle('Expense Tracker')
-        self.initialize_ui()
+        self.all_expenses_button()
 
-    def initialize_ui(self):
-        self.label.setText('Not clicked.')
-        self.label.move(50, 50)
+    def all_expenses_button(self):
+        self.all_exp_button = QPushButton('All Expenses', self)
+        self.all_exp_button.setText('All Expenses')
+        self.all_exp_button.setGeometry(0, 0, 130, 50)
+        self.all_exp_button.clicked.connect(self.all_exp_button_click)
 
-        self.weekly_expense_button.setText('Weekly Expenses')
-        self.weekly_expense_button.setGeometry(0, 0, 130, 50)
-        self.weekly_expense_button.clicked.connect(self.all_expenses_button_click)
-
-    def all_expenses_button_click(self):
+    def all_exp_button_click(self):
         display_all_expenses()
         self.update()
-
-    def update(self):
-        self.label.adjustSize()
 
 
 def window():
     app = QApplication(sys.argv)
-    win = MyWindow()
+    win = MainWindow()
     win.show()
     sys.exit(app.exec_())
 

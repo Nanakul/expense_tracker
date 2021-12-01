@@ -137,3 +137,4 @@ dmypy.json
 .idea/vcs.xml
 Expenses.db
 .DS_Store
+expense_gui.ui
