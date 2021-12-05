@@ -10,6 +10,7 @@ import re
 connection = db.connect('Expenses.db')
 cursor = connection.cursor()
 cursor.execute("""CREATE TABLE if NOT EXISTS Expenses (
+                category VARCHAR,
                 item VARCHAR, 
                 date datetime, 
                 price VARCHAR
@@ -17,21 +18,42 @@ cursor.execute("""CREATE TABLE if NOT EXISTS Expenses (
 connection.commit()
 
 
-def new_expense():
-    """This function will allow a user to input a new expense."""
+def get_category():
+    """This function will allow the user to enter the category of what they purchased."""
     while True:
-        item = input('What did you purchase? ')
-        date_purchased = input('What day did you make the purchase? Format: YYYY/MM/DD ')
-        item_price = input('How much did this cost? ')
-        d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date_purchased)
+        category = input('What category does your purchase fall under? '
+                         '\n (1) == Travel'
+                         '\n (2) == Food'
+                         '\n (3) == Groceries ')
+        try:
+            category = int(category)
+            if category in range(1, 3):
+                break
+            else:
+                print('Please enter one of the valid categories')
+        except ValueError:
+            print('Please enter one of the options')
+            continue
 
-        if d1_format is None:
-            print('Please re-enter using the instructed format.')
-        else:
-            break
+    return category
 
-    connection.execute('INSERT INTO Expenses VALUES (?, ?, ?)',
-                       (str(item), str(date_purchased), str(item_price)))
+
+def input_expense_database(category, item, date_purchased, price):
+    """This function will input the expense into the DB."""
+
+    category = get_category()
+    item = get_item()
+    date_purchased = get_date_purchased()
+    price = get_price()
+
+    # Get Price
+
+    # Insert into DB
+    tableName = 'Expense'
+    insertIntoTable(tableName, category, itemName, purchaseDate, price)
+
+    connection.execute('INSERT INTO Expenses VALUES (?, ?, ?, ?)',
+                       (str(category), str(item), str(date_purchased), str(item_price)))
     connection.commit()
 
 
