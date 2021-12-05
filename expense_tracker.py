@@ -128,13 +128,29 @@ def calc_category_percentages():
 
     cursor.execute('SELECT COUNT(*) FROM EXPENSES')
     total_expenses = cursor.fetchall()
-    print(total_expenses[0][0])
+    total_expenses_int = int(total_expenses[0][0])
+
+    print(f'There have been {total_expenses_int} of expenses recorded.')
 
     cursor.execute('SELECT category FROM Expenses')
     category_select = cursor.fetchall()
-    
-    for category_num in category_select:
-        print(category_num[0])
+
+    for x in category_select:
+        for y in x:
+            if y == '1':
+                travel_count += 1
+            elif y == '2':
+                food_count += 1
+            else:
+                groceries_count += 1
+
+    # Make new table for categories so we can replace this if statement later and do this all on DB level.
+
+    travel_percentage = travel_count / total_expenses_int
+    food_percentage = food_count / total_expenses_int
+    groceries_percentage = groceries_count / total_expenses_int
+
+    return '%.2f' % travel_percentage, '%.2f' % food_percentage, '%.2f' % groceries_percentage
 
 
 if __name__ == '__main__':
