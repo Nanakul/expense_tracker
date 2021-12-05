@@ -27,7 +27,7 @@ def get_category():
                          '\n (3) == Groceries ')
         try:
             category = int(category)
-            if category in range(1, 3):
+            if category in range(1, 4):
                 break
             else:
                 print('Please enter one of the valid categories')
@@ -43,41 +43,37 @@ def get_item():
     while True:
         item = input('What did you purchase? ')
         if len(item) != 0:
-            break
+            return item
         else:
             print('You must have bought something... Try again.')
-
-    return item
 
 
 def get_date_purchased():
     """This function will allow the user to enter in the date of the purchase."""
-    date_purchased = input('What day did you make the purchase? Format: YYYY/MM/DD ')
-    d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date_purchased)
+    while True:
+        date_purchased = input('What day did you make the purchase? Format: YYYY/MM/DD ')
+        d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date_purchased)
 
-    if d1_format is None:
-        print('Please re-enter using the instructed format.')
-    else:
-        pass
+        if d1_format is None:
+            print('Please re-enter using the instructed format.')
+        else:
+            return date_purchased
 
-    return date_purchased
 
-def input_expense_database(category, item, date_purchased, price):
-    """This function will input the expense into the DB."""
+def get_price():
+    while True:
+        item_price = input('How much did this cost? $')
+        try:
+            item_price = float(item_price)
+            return str(item_price)
+        except ValueError:
+            print('Please enter with the following format: #.#')
 
-    category = get_category()
-    item = get_item()
-    date_purchased = get_date_purchased()
-    price = get_price()
 
-    # Get Price
+def input_expense_database(_category, _item, _date_purchased, _price):
 
-    # Insert into DB
-    tableName = 'Expense'
-    insertIntoTable(tableName, category, itemName, purchaseDate, price)
-
-    connection.execute('INSERT INTO Expenses VALUES (?, ?, ?, ?)',
-                       (str(category), str(item), str(date_purchased), str(item_price)))
+    cursor.execute('INSERT INTO Expenses VALUES (?,?,?,?)',
+                   (str(_category), str(_item), str(_date_purchased), str(_price)))
     connection.commit()
 
 
@@ -127,7 +123,11 @@ def expense_between_range():
 
 
 if __name__ == '__main__':
-    new_expense()
+    category = get_category()
+    item = get_item()
+    date_purchased = get_date_purchased()
+    price = get_price()
+    input_expense_database(category, item, date_purchased, price)
     # display_all_expenses()
     # display_expense_to_current()
     # expense_between_range()
