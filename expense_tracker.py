@@ -38,6 +38,18 @@ def get_category():
     return category
 
 
+def get_item():
+    """This function will allow the user to enter in the item they purchased."""
+    while True:
+        item = input('What did you purchase? ')
+        if len(item) != 0:
+            break
+        else:
+            print('You must have bought something... Try again.')
+
+    return item
+
+
 def input_expense_database(category, item, date_purchased, price):
     """This function will input the expense into the DB."""
 
