@@ -71,7 +71,6 @@ def get_price():
 
 
 def input_expense_database(_category, _item, _date_purchased, _price):
-
     cursor.execute('INSERT INTO Expenses VALUES (?,?,?,?)',
                    (str(_category), str(_item), str(_date_purchased), str(_price)))
     connection.commit()
@@ -122,12 +121,29 @@ def expense_between_range():
     connection.commit()
 
 
+def calc_category_percentages():
+    travel_count = 0
+    food_count = 0
+    groceries_count = 0
+
+    cursor.execute('SELECT COUNT(*) FROM EXPENSES')
+    total_expenses = cursor.fetchall()
+    print(total_expenses[0][0])
+
+    cursor.execute('SELECT category FROM Expenses')
+    category_select = cursor.fetchall()
+    
+    for category_num in category_select:
+        print(category_num[0])
+
+
 if __name__ == '__main__':
-    category = get_category()
-    item = get_item()
-    date_purchased = get_date_purchased()
-    price = get_price()
-    input_expense_database(category, item, date_purchased, price)
+    # category = get_category()
+    # item = get_item()
+    # date_purchased = get_date_purchased()
+    # price = get_price()
+    # input_expense_database(category, item, date_purchased, price)
+    calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
     # expense_between_range()
