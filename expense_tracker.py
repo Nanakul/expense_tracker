@@ -50,6 +50,18 @@ def get_item():
     return item
 
 
+def get_date_purchased():
+    """This function will allow the user to enter in the date of the purchase."""
+    date_purchased = input('What day did you make the purchase? Format: YYYY/MM/DD ')
+    d1_format = re.search(r'\d{4}/\d{2}/\d{2}', date_purchased)
+
+    if d1_format is None:
+        print('Please re-enter using the instructed format.')
+    else:
+        pass
+
+    return date_purchased
+
 def input_expense_database(category, item, date_purchased, price):
     """This function will input the expense into the DB."""
 
