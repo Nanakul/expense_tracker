@@ -122,7 +122,7 @@ def expense_between_range():
 
 
 def calc_total_dollars_spent():
-    total_dollars_spent = 0
+    total_dollars_spent = 0.0
 
     # Get $ Amount for each Expense
     cursor.execute('SELECT price FROM Expenses')
@@ -130,9 +130,10 @@ def calc_total_dollars_spent():
 
     for x in price_select:
         for y in x:
-            print(y)
+            float_price = float(y)
+            total_dollars_spent += float_price
 
-    print(f'You have spent {total_dollars_spent} out of all expenses recorded.')
+    print(f'You have spent ${total_dollars_spent} out of all expenses recorded.')
 
 
 def calc_category_percentages():
