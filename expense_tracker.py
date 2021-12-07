@@ -132,7 +132,7 @@ def get_total_num_expenses():
 
 
 def calc_total_dollars_spent():
-    total_dollars_spent = 0.0
+    total_dollars_spent = 0
 
     # Get $ Amount for each Expense
     cursor.execute('SELECT price FROM Expenses')
@@ -148,7 +148,7 @@ def calc_total_dollars_spent():
     return total_dollars_spent
 
 
-def calc_travel_percent(total_num_expenses, total_dollars_spent):
+def calc_travel_percent(_total_num_expenses, _total_dollars_spent):
     travel_count = 0
     travel_dollars_spent = 0
 
@@ -182,6 +182,20 @@ def calc_travel_percent(total_num_expenses, total_dollars_spent):
     print(f'You have {total_travel_exp_int} Travel expense(s) recorded.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${travel_dollars_spent}'
           f'({total_travel_perc}%) in the Travel category.')
+
+    return travel_dollars_spent, total_travel_perc
+
+
+def calc_food_percent(_total_num_expenses, _total_dollars_spent):
+    food_count = 0
+    food_dollars_spent = 0
+
+    # Get number of food expenses
+    cursor.execute('SELECT COUNT (*) FROM Expenses WHERE category ="2"')
+    total_food_exp = cursor.fetchall()
+    total_food_exp_int = int(total_food_exp[0][0])
+
+
 
 
 def calc_category_percentages():
@@ -232,6 +246,7 @@ if __name__ == '__main__':
     # input_expense_database(category, item, date_purchased, price)
     # calc_total_dollars_spent()
     calc_travel_percent(total_num_expenses, total_dollars_spent)
+    calc_food_percent(total_num_expenses, total_dollars_spent)
     # calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
