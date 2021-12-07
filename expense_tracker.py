@@ -195,8 +195,33 @@ def calc_food_percent(_total_num_expenses, _total_dollars_spent):
     total_food_exp = cursor.fetchall()
     total_food_exp_int = int(total_food_exp[0][0])
 
+    cursor.execute('SELECT category FROM Expenses')
+    food_select = cursor.fetchall()
 
+    for x in food_select:
+        for y in x:
+            if y == '2':
+                food_count += 1
+            else:
+                pass
 
+    # Get $ percent spent on food.
+    cursor.execute('SELECT price FROM Expenses WHERE category ="2"')
+    food_prices = cursor.fetchall()
+
+    for i in food_prices:
+        for j in i:
+            float_food_price = float(j)
+            food_dollars_spent += float_food_price
+
+    # Get percentage out of all expenses.
+    total_food_perc = '%.2f' % (total_food_exp_int / total_num_expenses)
+
+    print(f'You have {total_food_exp_int} Food expense(s) recorded.')
+    print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${food_dollars_spent}'
+          f'({total_food_perc}%) in the Food category.')
+
+    return food_dollars_spent, total_food_perc
 
 def calc_category_percentages():
     travel_count = 0
