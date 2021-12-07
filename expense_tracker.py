@@ -261,7 +261,8 @@ def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
     # Get percentage out of all expenses.
     total_groceries_perc = '%.2f' % (total_groceries_exp_int / total_num_expenses)
 
-    print(f'You have {total_groceries_exp_int} Groceries expense(s) recorded out of {total_num_expenses} total expenses.')
+    print(f'You have {total_groceries_exp_int} Groceries expense(s) recorded out of '
+          f'{total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${groceries_dollars_spent}'
           f'({total_groceries_perc}%) in the Groceries category.')
     print('-----------------------------------------------------------------------------')
@@ -294,13 +295,12 @@ if __name__ == '__main__':
     print('++++++++++++++++++++++++++++++\n')
 
     while not exit_program:
-        choose_option = int(input('What would you like to do?\n'
+        choose_option = int(input('What would you like to do? Choose 1-5.\n'
                                   '1.) Enter in a new expense.\n'
                                   '2.) Display all expenses to current.\n'
                                   '3.) Get expenses between a particular time frame.\n'
                                   '4.) See spending summary.\n'
-                                  '5.) Exit\n'
-                                  'Choose 1-5.\n'))
+                                  '5.) Exit\n'))
 
         if choose_option == 1:
             category = get_category()
@@ -333,11 +333,19 @@ if __name__ == '__main__':
                 elif user_select_category == 3:
                     calc_groceries_percent(total_num_expenses, total_dollars_spent)
                 elif user_select_category == 4:
-                    labels = 'Travel', 'Food', 'Groceries'
+                    travel_dollar_amt = str((calc_travel_percent(total_num_expenses, total_dollars_spent)[0]))
+                    food_dollar_amt = str((calc_food_percent(total_num_expenses, total_dollars_spent)[0]))
+                    groceries_dollar_amt = str((calc_groceries_percent(total_num_expenses, total_dollars_spent)[0]))
+
+                    labels = 'Travel ($' + travel_dollar_amt + ')', \
+                             'Food ($' + food_dollar_amt + ')', \
+                             'Groceries ($' + groceries_dollar_amt + ')'
+
                     category_data = [calc_travel_percent(total_num_expenses, total_dollars_spent)[1],
                                      calc_food_percent(total_num_expenses, total_dollars_spent)[1],
                                      calc_groceries_percent(total_num_expenses, total_dollars_spent)[1]]
-                    fig = plt.figure(figsize=(5, 5))
+                    
+                    fig = plt.figure(figsize=(6.5, 6.5))
                     plt.pie(category_data, labels=labels, autopct='%1.2f%%')
                     plt.show()
                 elif user_select_category == 5:
