@@ -257,43 +257,7 @@ def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${groceries_dollars_spent}'
           f'({total_groceries_perc}%) in the Groceries category.')
 
-
-def calc_category_percentages():
-    travel_count = 0
-    food_count = 0
-    groceries_count = 0
-
-    # Get Total Number of Expenses.
-    cursor.execute('SELECT COUNT(*) FROM Expenses')
-    total_expenses = cursor.fetchall()
-    total_expenses_int = int(total_expenses[0][0])
-
-    print(f'There have been {total_expenses_int} total expenses recorded.')
-
-    cursor.execute('SELECT category FROM Expenses')
-    category_select = cursor.fetchall()
-
-    for x in category_select:
-        for y in x:
-            if y == '1':
-                travel_count += 1
-            elif y == '2':
-                food_count += 1
-            else:
-                groceries_count += 1
-
-    # Make new table for categories so we can replace this if statement later and do this all on DB level.
-
-    travel_percentage = '%.2f' % (travel_count / total_expenses_int)
-    food_percentage = '%.2f' % (food_count / total_expenses_int)
-    groceries_percentage = '%.2f' % (groceries_count / total_expenses_int)
-
-    print(f'{travel_percentage}% of your expenses were spent on Travel.')
-    print(f'{food_percentage}% of your expenses were spent on Food.')
-    print(f'{groceries_percentage}% of your expenses were spent on Groceries.')
-
-    # NOTE: '%.2f' % _____ is to make float precision 2 places to the right.
-    return travel_percentage, food_percentage, groceries_percentage
+    return groceries_dollars_spent, total_groceries_perc
 
 
 if __name__ == '__main__':
