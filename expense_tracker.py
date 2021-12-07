@@ -143,7 +143,7 @@ def calc_total_dollars_spent():
             float_price = float(y)
             total_dollars_spent += float_price
 
-    return total_dollars_spent
+    return '%.2f' % total_dollars_spent
 
 
 def calc_travel_percent(_total_num_expenses, _total_dollars_spent):
@@ -261,18 +261,17 @@ def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
 
 
 if __name__ == '__main__':
-    # category = get_category()
-    # item = get_item()
-    # date_purchased = get_date_purchased()
-    # price = get_price()
+    category = get_category()
+    item = get_item()
+    date_purchased = get_date_purchased()
+    price = get_price()
+    input_expense_database(category, item, date_purchased, price)
     total_dollars_spent = calc_total_dollars_spent()
     total_num_expenses = get_total_num_expenses()
-    # input_expense_database(category, item, date_purchased, price)
-    # calc_total_dollars_spent()
+    calc_total_dollars_spent()
     calc_travel_percent(total_num_expenses, total_dollars_spent)
     calc_food_percent(total_num_expenses, total_dollars_spent)
     calc_groceries_percent(total_num_expenses, total_dollars_spent)
-    # calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
     # expense_between_range()
