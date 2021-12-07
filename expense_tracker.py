@@ -1,6 +1,7 @@
 import sqlite3 as db
 import re
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 # 1 -- Entering expenses == DONE
 # 2 -- Return all expenses == DONE
@@ -332,9 +333,13 @@ if __name__ == '__main__':
                 elif user_select_category == 3:
                     calc_groceries_percent(total_num_expenses, total_dollars_spent)
                 elif user_select_category == 4:
-                    calc_travel_percent(total_num_expenses, total_dollars_spent)
-                    calc_food_percent(total_num_expenses, total_dollars_spent)
-                    calc_groceries_percent(total_num_expenses, total_dollars_spent)
+                    labels = 'Travel', 'Food', 'Groceries'
+                    category_data = [calc_travel_percent(total_num_expenses, total_dollars_spent)[1],
+                                     calc_food_percent(total_num_expenses, total_dollars_spent)[1],
+                                     calc_groceries_percent(total_num_expenses, total_dollars_spent)[1]]
+                    fig = plt.figure(figsize=(5, 5))
+                    plt.pie(category_data, labels=labels, autopct='%1.2f%%')
+                    plt.show()
                 elif user_select_category == 5:
                     break
                 else:
