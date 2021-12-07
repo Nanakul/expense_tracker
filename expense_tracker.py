@@ -3,11 +3,6 @@ import re
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-# 1 -- Entering expenses == DONE
-# 2 -- Return all expenses == DONE
-# 3 -- Return all expenses from current date to specified date == DONE
-# 4 -- Return all expenses between two specified dates == DONE
-
 # Date and time
 date_now = datetime.now().date().strftime('%m-%d-%Y')
 time_now = datetime.now().strftime('%I:%M:%S %p')
@@ -269,6 +264,12 @@ def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
     return groceries_dollars_spent, total_groceries_perc
 
 
+def remove_expense_database(_category, _item, _date_purchased, _price):
+    cursor.execute('DELETE FROM Expenses WHERE category=? AND item=? AND date=? AND price=?',
+                   (str(_category), str(_item), str(_date_purchased), str(_price)))
+    connection.commit()
+
+
 if __name__ == '__main__':
     # category = get_category()
     # item = get_item()
@@ -299,7 +300,8 @@ if __name__ == '__main__':
                                   '2.) Display all expenses to current.\n'
                                   '3.) Get expenses between a particular time frame.\n'
                                   '4.) See spending summary.\n'
-                                  '5.) Exit\n'))
+                                  '5.) Remove an entry from the database.\n'
+                                  '6.) Exit\n'))
 
         if choose_option == 1:
             category = get_category()
@@ -351,6 +353,16 @@ if __name__ == '__main__':
                     print('Sorry, please enter a valid option.')
 
         elif choose_option == 5:
+            display_expense_to_current()
+            print('Enter the following information to delete the correct entry.')
+            category = get_category()
+            item = get_item()
+            date_purchased = get_date_purchased()
+            price = get_price()
+            remove_expense_database(category, item, date_purchased, price)
+        elif choose_option == 6:
             break
         else:
             print('Sorry, please enter a valid option.')
+
+
