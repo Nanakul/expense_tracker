@@ -222,10 +222,40 @@ def calc_food_percent(_total_num_expenses, _total_dollars_spent):
     return food_dollars_spent, total_food_perc
 
 
-def calc_groceries_percentage(_total_num_expenses, _total_dollars_spent):
+def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
     groceries_count = 0
-    groceries_dollar_spent = 0
-    
+    groceries_dollars_spent = 0
+
+    # Get number of groceries expenses
+    cursor.execute('SELECT COUNT (*) FROM Expenses WHERE category ="3"')
+    total_groceries_exp = cursor.fetchall()
+    total_groceries_exp_int = int(total_groceries_exp[0][0])
+
+    cursor.execute('SELECT category FROM Expenses')
+    groceries_select = cursor.fetchall()
+
+    for x in groceries_select:
+        for y in x:
+            if y == '3':
+                groceries_count += 1
+            else:
+                pass
+
+    # Get $ percent spent on groceries.
+    cursor.execute('SELECT price FROM Expenses WHERE category ="3"')
+    groceries_prices = cursor.fetchall()
+
+    for i in groceries_prices:
+        for j in i:
+            float_groceries_price = float(j)
+            groceries_dollars_spent += float_groceries_price
+
+    # Get percentage out of all expenses.
+    total_groceries_perc = '%.2f' % (total_groceries_exp_int / total_num_expenses)
+
+    print(f'You have {total_groceries_exp_int} Groceries expense(s) recorded out of {total_num_expenses} total expenses.')
+    print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${groceries_dollars_spent}'
+          f'({total_groceries_perc}%) in the Groceries category.')
 
 
 def calc_category_percentages():
@@ -277,6 +307,7 @@ if __name__ == '__main__':
     # calc_total_dollars_spent()
     calc_travel_percent(total_num_expenses, total_dollars_spent)
     calc_food_percent(total_num_expenses, total_dollars_spent)
+    calc_groceries_percent(total_num_expenses, total_dollars_spent)
     # calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
