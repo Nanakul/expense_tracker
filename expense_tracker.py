@@ -121,16 +121,31 @@ def expense_between_range():
     connection.commit()
 
 
+def calc_total_dollars_spent():
+    total_dollars_spent = 0
+
+    # Get $ Amount for each Expense
+    cursor.execute('SELECT price FROM Expenses')
+    price_select = cursor.fetchall()
+
+    for x in price_select:
+        for y in x:
+            print(y)
+
+    print(f'You have spent {total_dollars_spent} out of all expenses recorded.')
+
+
 def calc_category_percentages():
     travel_count = 0
     food_count = 0
     groceries_count = 0
 
-    cursor.execute('SELECT COUNT(*) FROM EXPENSES')
+    # Get Total Number of Expenses.
+    cursor.execute('SELECT COUNT(*) FROM Expenses')
     total_expenses = cursor.fetchall()
     total_expenses_int = int(total_expenses[0][0])
 
-    print(f'There have been {total_expenses_int} of expenses recorded.')
+    print(f'There have been {total_expenses_int} total expenses recorded.')
 
     cursor.execute('SELECT category FROM Expenses')
     category_select = cursor.fetchall()
@@ -146,11 +161,16 @@ def calc_category_percentages():
 
     # Make new table for categories so we can replace this if statement later and do this all on DB level.
 
-    travel_percentage = travel_count / total_expenses_int
-    food_percentage = food_count / total_expenses_int
-    groceries_percentage = groceries_count / total_expenses_int
+    travel_percentage = '%.2f' % (travel_count / total_expenses_int)
+    food_percentage = '%.2f' % (food_count / total_expenses_int)
+    groceries_percentage = '%.2f' % (groceries_count / total_expenses_int)
 
-    return '%.2f' % travel_percentage, '%.2f' % food_percentage, '%.2f' % groceries_percentage
+    print(f'{travel_percentage}% of your expenses were spent on Travel.')
+    print(f'{food_percentage}% of your expenses were spent on Food.')
+    print(f'{groceries_percentage}% of your expenses were spent on Groceries.')
+
+    # NOTE: '%.2f' % _____ is to make float precision 2 places to the right.
+    return travel_percentage, food_percentage, groceries_percentage
 
 
 if __name__ == '__main__':
@@ -159,7 +179,8 @@ if __name__ == '__main__':
     # date_purchased = get_date_purchased()
     # price = get_price()
     # input_expense_database(category, item, date_purchased, price)
-    calc_category_percentages()
+    calc_total_dollars_spent()
+    # calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
     # expense_between_range()
