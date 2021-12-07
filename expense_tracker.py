@@ -135,6 +135,8 @@ def calc_total_dollars_spent():
 
     print(f'You have spent ${total_dollars_spent} out of all expenses recorded.')
 
+    return total_dollars_spent
+
 
 def calc_category_percentages():
     travel_count = 0
