@@ -121,6 +121,16 @@ def expense_between_range():
     connection.commit()
 
 
+def get_total_num_expenses():
+
+    # Get Total Number of Expenses.
+    cursor.execute('SELECT COUNT(*) FROM Expenses')
+    total_expenses = cursor.fetchall()
+    total_expenses_int = int(total_expenses[0][0])
+
+    return total_expenses_int
+
+
 def calc_total_dollars_spent():
     total_dollars_spent = 0.0
 
@@ -138,7 +148,7 @@ def calc_total_dollars_spent():
     return total_dollars_spent
 
 
-def calc_travel_percent(total_dollars_spent):
+def calc_travel_percent(total_num_expenses, total_dollars_spent):
     travel_count = 0
     travel_dollars_spent = 0
 
@@ -165,9 +175,13 @@ def calc_travel_percent(total_dollars_spent):
         for j in i:
             float_travel_price = float(j)
             travel_dollars_spent += float_travel_price
-            
+
+    # Get percentage out of all expenses.
+    total_travel_perc = '%.2f' % (total_travel_exp_int / total_num_expenses)
+
     print(f'You have {total_travel_exp_int} Travel expense(s) recorded.')
-    print(f'Out of ${total_dollars_spent} spent, you have spent ${travel_dollars_spent} in the Travel category.')
+    print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${travel_dollars_spent}'
+          f'({total_travel_perc}%) in the Travel category.')
 
 
 def calc_category_percentages():
@@ -214,9 +228,10 @@ if __name__ == '__main__':
     # date_purchased = get_date_purchased()
     # price = get_price()
     total_dollars_spent = calc_total_dollars_spent()
+    total_num_expenses = get_total_num_expenses()
     # input_expense_database(category, item, date_purchased, price)
     # calc_total_dollars_spent()
-    calc_travel_percent(total_dollars_spent)
+    calc_travel_percent(total_num_expenses, total_dollars_spent)
     # calc_category_percentages()
     # display_all_expenses()
     # display_expense_to_current()
