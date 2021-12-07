@@ -143,8 +143,6 @@ def calc_total_dollars_spent():
             float_price = float(y)
             total_dollars_spent += float_price
 
-    print(f'You have spent ${total_dollars_spent} out of all expenses recorded.')
-
     return total_dollars_spent
 
 
@@ -179,7 +177,7 @@ def calc_travel_percent(_total_num_expenses, _total_dollars_spent):
     # Get percentage out of all expenses.
     total_travel_perc = '%.2f' % (total_travel_exp_int / total_num_expenses)
 
-    print(f'You have {total_travel_exp_int} Travel expense(s) recorded.')
+    print(f'You have {total_travel_exp_int} Travel expense(s) recorded out of {total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${travel_dollars_spent}'
           f'({total_travel_perc}%) in the Travel category.')
 
@@ -217,11 +215,18 @@ def calc_food_percent(_total_num_expenses, _total_dollars_spent):
     # Get percentage out of all expenses.
     total_food_perc = '%.2f' % (total_food_exp_int / total_num_expenses)
 
-    print(f'You have {total_food_exp_int} Food expense(s) recorded.')
+    print(f'You have {total_food_exp_int} Food expense(s) recorded out of {total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${food_dollars_spent}'
           f'({total_food_perc}%) in the Food category.')
 
     return food_dollars_spent, total_food_perc
+
+
+def calc_groceries_percentage(_total_num_expenses, _total_dollars_spent):
+    groceries_count = 0
+    groceries_dollar_spent = 0
+    
+
 
 def calc_category_percentages():
     travel_count = 0
