@@ -1,10 +1,15 @@
 import sqlite3 as db
 import re
+from datetime import datetime
 
 # 1 -- Entering expenses == DONE
 # 2 -- Return all expenses == DONE
 # 3 -- Return all expenses from current date to specified date == DONE
 # 4 -- Return all expenses between two specified dates == DONE
+
+# Date and time
+date_now = datetime.now().date().strftime('%m-%d-%Y')
+time_now = datetime.now().strftime('%I:%M:%S %p')
 
 # Connect the database
 connection = db.connect('Expenses.db')
@@ -180,6 +185,7 @@ def calc_travel_percent(_total_num_expenses, _total_dollars_spent):
     print(f'You have {total_travel_exp_int} Travel expense(s) recorded out of {total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${travel_dollars_spent}'
           f'({total_travel_perc}%) in the Travel category.')
+    print('-----------------------------------------------------------------------------')
 
     return travel_dollars_spent, total_travel_perc
 
@@ -218,6 +224,7 @@ def calc_food_percent(_total_num_expenses, _total_dollars_spent):
     print(f'You have {total_food_exp_int} Food expense(s) recorded out of {total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${food_dollars_spent}'
           f'({total_food_perc}%) in the Food category.')
+    print('-----------------------------------------------------------------------------')
 
     return food_dollars_spent, total_food_perc
 
@@ -256,22 +263,84 @@ def calc_groceries_percent(_total_num_expenses, _total_dollars_spent):
     print(f'You have {total_groceries_exp_int} Groceries expense(s) recorded out of {total_num_expenses} total expenses.')
     print(f'Out of ${total_dollars_spent} spent:\nYou have spent ${groceries_dollars_spent}'
           f'({total_groceries_perc}%) in the Groceries category.')
+    print('-----------------------------------------------------------------------------')
 
     return groceries_dollars_spent, total_groceries_perc
 
 
 if __name__ == '__main__':
-    category = get_category()
-    item = get_item()
-    date_purchased = get_date_purchased()
-    price = get_price()
-    input_expense_database(category, item, date_purchased, price)
+    # category = get_category()
+    # item = get_item()
+    # date_purchased = get_date_purchased()
+    # price = get_price()
+    # input_expense_database(category, item, date_purchased, price)
     total_dollars_spent = calc_total_dollars_spent()
     total_num_expenses = get_total_num_expenses()
-    calc_total_dollars_spent()
-    calc_travel_percent(total_num_expenses, total_dollars_spent)
-    calc_food_percent(total_num_expenses, total_dollars_spent)
-    calc_groceries_percent(total_num_expenses, total_dollars_spent)
+    # calc_total_dollars_spent()
+    # calc_travel_percent(total_num_expenses, total_dollars_spent)
+    # calc_food_percent(total_num_expenses, total_dollars_spent)
+    # calc_groceries_percent(total_num_expenses, total_dollars_spent)
     # display_all_expenses()
     # display_expense_to_current()
     # expense_between_range()
+
+    exit_program = False
+
+    print('++++++++++++++++++++++++++++++')
+    print('-----------WELCOME!-----------')
+    print('DATE: ' + date_now)
+    print('TIME: ' + time_now)
+    print('++++++++++++++++++++++++++++++\n')
+
+    while not exit_program:
+        choose_option = int(input('What would you like to do?\n'
+                                  '1.) Enter in a new expense.\n'
+                                  '2.) Display all expenses to current.\n'
+                                  '3.) Get expenses between a particular time frame.\n'
+                                  '4.) See spending summary.\n'
+                                  '5.) Exit\n'
+                                  'Choose 1-5.\n'))
+
+        if choose_option == 1:
+            category = get_category()
+            item = get_item()
+            date_purchased = get_date_purchased()
+            price = get_price()
+            input_expense_database(category, item, date_purchased, price)
+        elif choose_option == 2:
+            display_expense_to_current()
+            print('\n-----------------------------------------------------------------------------\n')
+        elif choose_option == 3:
+            expense_between_range()
+            print('\n-----------------------------------------------------------------------------\n')
+        elif choose_option == 4:
+            category_selected = False
+            print('What category did you want to see your stats on?\n'
+                  '1.) Travel\n'
+                  '2.) Food\n'
+                  '3.) Groceries\n'
+                  '4.) All\n'
+                  '5.) Go back')
+
+            while not category_selected:
+                user_select_category = int(input('Please enter your option. 1-5.\n'))
+
+                if user_select_category == 1:
+                    calc_travel_percent(total_num_expenses, total_dollars_spent)
+                elif user_select_category == 2:
+                    calc_food_percent(total_num_expenses, total_dollars_spent)
+                elif user_select_category == 3:
+                    calc_groceries_percent(total_num_expenses, total_dollars_spent)
+                elif user_select_category == 4:
+                    calc_travel_percent(total_num_expenses, total_dollars_spent)
+                    calc_food_percent(total_num_expenses, total_dollars_spent)
+                    calc_groceries_percent(total_num_expenses, total_dollars_spent)
+                elif user_select_category == 5:
+                    break
+                else:
+                    print('Sorry, please enter a valid option.')
+
+        elif choose_option == 5:
+            break
+        else:
+            print('Sorry, please enter a valid option.')
