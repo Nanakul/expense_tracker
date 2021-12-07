@@ -28,9 +28,9 @@ def get_category():
     """This function will allow the user to enter the category of what they purchased."""
     while True:
         category = input('What category does your purchase fall under? '
-                         '\n (1) == Travel'
-                         '\n (2) == Food'
-                         '\n (3) == Groceries ')
+                         '\n 1.) == Travel'
+                         '\n 2.) == Food'
+                         '\n 3.) == Groceries ')
         try:
             category = int(category)
             if category in range(1, 4):
@@ -128,7 +128,6 @@ def expense_between_range():
 
 
 def get_total_num_expenses():
-
     # Get Total Number of Expenses.
     cursor.execute('SELECT COUNT(*) FROM Expenses')
     total_expenses = cursor.fetchall()
@@ -316,23 +315,27 @@ if __name__ == '__main__':
             print('\n-----------------------------------------------------------------------------\n')
         elif choose_option == 4:
             category_selected = False
-            print('What category did you want to see your stats on?\n'
-                  '1.) Travel\n'
-                  '2.) Food\n'
-                  '3.) Groceries\n'
-                  '4.) All\n'
-                  '5.) Go back')
 
             while not category_selected:
-                user_select_category = int(input('Please enter your option. 1-5.\n'))
+                user_select_category = int(input('What category did you want to see your stats on?\n'
+                                                 '1.) Travel\n'
+                                                 '2.) Food\n'
+                                                 '3.) Groceries\n'
+                                                 '4.) All\n'
+                                                 '5.) Go back'
+                                                 'Please enter your option. 1-5.\n'))
 
                 if user_select_category == 1:
+                    get_total_num_expenses()
                     calc_travel_percent(total_num_expenses, total_dollars_spent)
                 elif user_select_category == 2:
+                    get_total_num_expenses()
                     calc_food_percent(total_num_expenses, total_dollars_spent)
                 elif user_select_category == 3:
+                    get_total_num_expenses()
                     calc_groceries_percent(total_num_expenses, total_dollars_spent)
                 elif user_select_category == 4:
+                    get_total_num_expenses()
                     labels = 'Travel', 'Food', 'Groceries'
 
                     category_data = [calc_travel_percent(total_num_expenses, total_dollars_spent)[1],
